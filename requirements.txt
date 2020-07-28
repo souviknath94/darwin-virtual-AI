@@ -1,0 +1,7 @@
+SpeechRecognition
+gTTS
+pyAudio
+pygame
+wikipedia
+ecapture
+wolframalpha
