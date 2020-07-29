@@ -7,14 +7,24 @@ from darwin.paths import __audio_files__
 #Define virtual AI voice properties using google_speech_to_text and pygame
 class DarwinVoice:
 
-    def __init__(self):
-        self.vo ice_recognizer = sr.Recognizer()
+    def __init__(self, accent=None):
+        self.voice_recognizer = sr.Recognizer()
         self.hour = datetime.datetime.now().hour
+        self.__lang__ = ['en-us', 'en-uk', 'en-in']
+        self.accent = accent 
 
     def talk(self, audio):
         
+        if self.accent not in self.__lang__:
+            raise NotImplementedError('Language or Accent not found')
+
+        if self.accent is None:
+            acc = self.__lang__[0]
+        else:
+            acc = self.accent
+
         print(f'Darwin: {audio}')
-        text_to_speech = gTTS(text=audio, lang='en-us')
+        text_to_speech = gTTS(text=audio, lang=acc)
         text_to_speech.save(__audio_files__ + 'audio.mp3')
         mixer.init()
         mixer.music.load(open(__audio_files__ + "audio.mp3","rb"))
