@@ -4,8 +4,7 @@
 from gtts import gTTS
 import speech_recognition as sr
 import re
-import time
-# import pyttsx3 
+import time 
 from selenium import webdriver
 import datetime
 import wikipedia
@@ -17,8 +16,4 @@ from ecapture import ecapture as ec
 import wolframalpha
 import requests
 import logging
-
-
-logging.info('Loading your personal AI assistant - Darwin')
-
-#Define virtual AI voice properties using pyttsx3
+from pygame import mixer
