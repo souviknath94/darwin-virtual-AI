@@ -5,3 +5,5 @@ pygame
 wikipedia
 ecapture
 wolframalpha
+cryptography
+geotext

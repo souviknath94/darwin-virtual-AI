@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from darwin.imports import *
-from darwin.paths import __audio_files__
 
 #Define virtual AI voice properties using google_speech_to_text and pygame
 class DarwinVoice:
@@ -25,9 +24,9 @@ class DarwinVoice:
 
         print(f'Darwin: {audio}')
         text_to_speech = gTTS(text=audio, lang=acc)
-        text_to_speech.save(__audio_files__ + 'audio.mp3')
+        text_to_speech.save(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'audio.mp3'))
         mixer.init()
-        mixer.music.load(open(__audio_files__ + "audio.mp3","rb"))
+        mixer.music.load(open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'audio.mp3')))
         mixer.music.play()
     
     def my_command(self):
