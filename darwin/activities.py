@@ -126,7 +126,7 @@ def take_photo():
     
     camera = cv2.VideoCapture(0)
     i = 0
-    whilw i<10:
+    while i<10:
         ret, image = camera.read()
         i += 1
         if i==10:
@@ -134,3 +134,17 @@ def take_photo():
             
     del camera
 
+
+def wolfram(command):
+    
+    with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'wolfram_api.yaml'), 'r') as reader:
+        api_inf = yaml.safe_load(reader)
+        
+    enc = Encryption(key=api_inf['fernet_key'])
+    app_id = api_inf['wolfram_app_id']
+    
+    client = wolframalpha.Client('R2K75H-7ELALHR35X')
+    res = client.query(command)
+    answer = next(res.results).text
+    
+    return answer

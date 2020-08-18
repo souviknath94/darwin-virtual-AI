@@ -7,3 +7,4 @@ ecapture
 wolframalpha
 cryptography
 geotext
+selenium
