@@ -10,20 +10,18 @@ class DarwinVoice:
         self.voice_recognizer = sr.Recognizer()
         self.hour = datetime.datetime.now().hour
         self.__lang__ = ['en-us', 'en-uk', 'en-in']
-        self.accent = accent 
-
-    def talk(self, audio):
+        self.accent = accent
         
+        if self.accent is None:
+            self.accent = self.__lang__[0]
+       
         if self.accent not in self.__lang__:
             raise NotImplementedError('Language or Accent not found')
 
-        if self.accent is None:
-            acc = self.__lang__[0]
-        else:
-            acc = self.accent
+    def talk(self, audio):
 
         print(f'Darwin: {audio}')
-        text_to_speech = gTTS(text=audio, lang=acc)
+        text_to_speech = gTTS(text=audio, lang=self.accent)
         text_to_speech.save(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'audio.mp3'))
         mixer.init()
         mixer.music.load(open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'audio.mp3')))

@@ -62,7 +62,7 @@ class Youtube:
                 res_list.append(vid_id)
         
         first_vid = res_list[0]
-        play_url = f'{BASE_URL}/watch?v={first_vid}'
+        play_url = f'{self.BASE_URL}/watch?v={first_vid}'
         webbrowser.open(play_url)
 
 class Weather:
@@ -122,15 +122,34 @@ class Weather:
         return weather_info
 
 
+def save_darwin_pictures():
+
+    home_dir = os.path.expanduser('~')
+    desktop_exists = ''.join([i for i in os.listdir(home_dir) if 'Desktop' in i])
+    
+    try:
+        save_dir_exists = ''.join([i for i in os.listdir(os.path.join(home_dir, desktop_exists)) if 'Darwin-captures' 
+        in i])
+    except:
+        save_dir_exists = None
+
+    if desktop_exists and not save_dir_exists:
+        os.makedirs(os.path.join(home_dir, desktop_exists, 'Darwin-captures'), exist_ok=True)
+        save_dir = os.path.join(home_dir, desktop_exists, 'Darwin-captures')
+    elif desktop_exists and save_dir_exists:
+        save_dir = os.path.join(home_dir, desktop_exists, 'Darwin-captures')
+
+    return save_dir
+
 def take_photo():
     
     camera = cv2.VideoCapture(0)
     i = 0
     while i<10:
-        ret, image = camera.read()
+        _, image = camera.read()
         i += 1
         if i==10:
-            cv2.imwrite(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'darwin_capture.png'), image)
+            cv2.imwrite(os.path.join(save_darwin_pictures, 'darwin_capture.png'), image)
             
     del camera
 
@@ -142,8 +161,9 @@ def wolfram(command):
         
     enc = Encryption(key=api_inf['fernet_key'])
     app_id = api_inf['wolfram_app_id']
-    
-    client = wolframalpha.Client('R2K75H-7ELALHR35X')
+    api_key = enc.decrypt(app_id)
+
+    client = wolframalpha.Client(api_key)
     res = client.query(command)
     answer = next(res.results).text
     
